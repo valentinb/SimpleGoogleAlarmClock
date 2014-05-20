@@ -7,6 +7,7 @@ import gdata.calendar.service as GServ            #for connection with GCalendar
 import time
 import os
 import random                                     #to play the mp3 later
+import hour 
 from ConfigParser import SafeConfigParser
 from feed.date.rfc3339 import tf_from_timestamp   #also for the comparator
 from datetime import datetime, timedelta          #for the time on the rpi end
@@ -16,6 +17,8 @@ logging.basicConfig(filename='wakeup.log', filemode='w')
 
 parser = SafeConfigParser()                       # initiate Parser and read the configuration file
 parser.read('wakeup.cfg')
+
+utime = hour.Hour()
 
 #************************************************************************************# 
 #****           Global variables that can be changed in wakeup.cfg file          ****#
@@ -81,4 +84,5 @@ def callable_func():
 #************************************************************************************# 
 sched = Scheduler(standalone=True)
 sched.add_interval_job(callable_func,seconds=10)  #  define refresh rate. Set to every 10 seconds by default
+sched.add_interval_job(utime.update,seconds=1)  #  define refresh rate. Set to every 10 seconds by default
 sched.start()                                     #  runs the program indefinatly on an interval of x seconds
