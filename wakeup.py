@@ -8,6 +8,7 @@ import time
 import os
 import random                                     #to play the mp3 later
 import hour 
+import radio
 from ConfigParser import SafeConfigParser
 from feed.date.rfc3339 import tf_from_timestamp   #also for the comparator
 from datetime import datetime, timedelta          #for the time on the rpi end
@@ -19,6 +20,7 @@ parser = SafeConfigParser()                       # initiate Parser and read the
 parser.read('wakeup.cfg')
 
 utime = hour.Hour()
+rad = radio.Radio()
 
 #************************************************************************************# 
 #****           Global variables that can be changed in wakeup.cfg file          ****#
@@ -38,7 +40,7 @@ calendar_service = GServ.CalendarService()
 calendar_service.email = email
 calendar_service.password = password
 calendar_service.source = 'SimpleGoogleAlarmClock'
-calendar_service.ProgrammaticLogin()
+#calendar_service.ProgrammaticLogin()
  
 #************************************************************************************# 
 #****           Main query                                                       ****#
@@ -83,6 +85,7 @@ def callable_func():
 #****           Run scheduler service                                            ****#
 #************************************************************************************# 
 sched = Scheduler(standalone=True)
-sched.add_interval_job(callable_func,seconds=10)  #  define refresh rate. Set to every 10 seconds by default
-sched.add_interval_job(utime.update,seconds=1)  #  define refresh rate. Set to every 10 seconds by default
+#sched.add_interval_job(callable_func,seconds=10)  #  define refresh rate. Set to every 10 seconds by default
+rad.play()
+sched.add_interval_job(utime.print_time,seconds=1)  #  define refresh rate. Set to every 10 seconds by default
 sched.start()                                     #  runs the program indefinatly on an interval of x seconds
