@@ -1,0 +1,6 @@
+to run a web radio :
+
+mplayer -playlist "http://broadcast.infomaniak.net/radionova-high.mp3.m3u"
+
+
+to find web radios : http://www.linuxpedia.fr/doku.php/flux_radio
